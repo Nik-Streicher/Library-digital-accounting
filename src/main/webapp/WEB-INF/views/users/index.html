@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+<p th:each="user: ${users}">
+    <a th:href="@{/people/{id}(id=${user.user_id})}" th:text="|${user.full_name}, ${user.year_of_birth}|">Username</a>
+</p>
+<br>
+<hr>
+<a href="/people/new">Add new user</a>
+</body>
+</html>
