@@ -10,7 +10,7 @@ import org.springframework.validation.Validator;
 @Component
 public class UserValidator implements Validator {
 
-    private UserDAO userDAO;
+    private final UserDAO userDAO;
 
     @Autowired
     public UserValidator(UserDAO userDAO) {

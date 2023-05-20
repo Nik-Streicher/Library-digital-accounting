@@ -10,7 +10,7 @@ import org.springframework.validation.Validator;
 @Component
 public class BookValidator implements Validator {
 
-    private BookDAO bookDAO;
+    private final BookDAO bookDAO;
 
     @Autowired
     public BookValidator(BookDAO bookDAO) {
