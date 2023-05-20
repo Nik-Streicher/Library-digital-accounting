@@ -10,16 +10,15 @@
 
     <label for="title">Enter title: </label>
     <input type="text" th:field="*{title}" id="title"/>
-    <!--  <p style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">ERROR</p>-->
+      <p style="color:red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">ERROR</p>
     <br/>
     <label for="author">Enter Author: </label>
     <input type="text" th:field="*{author}" id="author"/>
-    <!--  <p style="color:red" th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}">ERROR</p>-->
+      <p style="color:red" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">ERROR</p>
 
     <br/>
     <label for="release_year">Enter release year: </label>
     <input type="number"  th:field="*{release_year}" id="release_year"/>
-    <!--  <p style="color:red" th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}">ERROR</p>-->
 
     <br/>
 

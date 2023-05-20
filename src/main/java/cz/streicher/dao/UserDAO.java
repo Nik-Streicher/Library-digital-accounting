@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Component
@@ -36,7 +37,7 @@ public class UserDAO {
     }
 
     public void edit(int userId, User updatedUser) {
-        jdbcTemplate.update("UPDATE users SET full_name=?, year_of_birth  WHERE user_id=?",
+        jdbcTemplate.update("UPDATE users SET full_name=?, year_of_birth=?  WHERE user_id=?",
                 updatedUser.getFull_name(), updatedUser.getYear_of_birth(), userId);
     }
 
@@ -48,5 +49,10 @@ public class UserDAO {
     public List<Book> getUserBooks(int userId){
         return jdbcTemplate.query("SELECT title, author, release_year FROM users JOIN books b on users.user_id = b.user_id WHERE b.user_id = ?",
                 new Object[]{userId}, new BeanPropertyRowMapper<>(Book.class));
+    }
+
+    public Optional<User> getUser(String fullName){
+        return jdbcTemplate.query("SELECT* FROM users WHERE full_name LIKE ?", new Object[]{fullName}, new BeanPropertyRowMapper<>(User.class))
+                .stream().findAny();
     }
 }

@@ -5,12 +5,14 @@ import cz.streicher.dao.BookDAO;
 import cz.streicher.dao.UserDAO;
 import cz.streicher.models.Book;
 import cz.streicher.models.User;
+import cz.streicher.util.BookValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.jws.WebParam;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/books")
@@ -18,10 +20,13 @@ public class BookController {
     private final BookDAO bookDAO;
     private final UserDAO userDAO;
 
+    private final BookValidator bookValidator;
+
     @Autowired
-    public BookController(BookDAO bookDAO, UserDAO userDAO) {
+    public BookController(BookDAO bookDAO, UserDAO userDAO, BookValidator bookValidator) {
         this.bookDAO = bookDAO;
         this.userDAO = userDAO;
+        this.bookValidator = bookValidator;
     }
 
     @GetMapping()
@@ -45,7 +50,12 @@ public class BookController {
     }
 
     @PostMapping()
-    public String create(@ModelAttribute() Book book) {
+    public String create(@ModelAttribute("emptyBook") @Valid Book book, BindingResult bindingResult) {
+
+        bookValidator.validate(book, bindingResult);
+
+        if (bindingResult.hasErrors())
+            return "/books/create";
         bookDAO.add(book);
         return "redirect:/books";
     }
@@ -59,7 +69,12 @@ public class BookController {
 
 
     @PatchMapping("/{id}")
-    public String change(@ModelAttribute() Book book, @PathVariable("id") int id) {
+    public String change(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult, @PathVariable("id") int id) {
+
+        bookValidator.validate(book, bindingResult);
+
+        if (bindingResult.hasErrors())
+            return "books/edit";
         bookDAO.edit(id, book);
         return "redirect:/books";
     }

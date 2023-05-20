@@ -8,7 +8,7 @@
 
 <p><a th:text="|${user.full_name}, ${user.year_of_birth}|"></a></p>
 <div th:if="${books.isEmpty()}">
-    <div>404</div>
+    <div>The user did not take any book</div>
 </div>
 
 <div th:unless="${books.isEmpty()}">
